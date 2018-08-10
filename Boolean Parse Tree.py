@@ -1,3 +1,9 @@
+#Boolean Parse Tree
+#Ryan Sleeper
+#This program takes an expression or boolean and evaluates it by creating a binary tree.
+#I only made comments to things I changed/added to the program.
+
+
 
 import operator
 
@@ -57,11 +63,11 @@ class Stack:
             
             
             
-def buildParseTree(fpexp):
-    count = 0
-    for item in fpexp:
-        if item == ")":
-            count = count + 1
+def buildParseTree(fpexp):                           #I made a few changes to the buildParseTree method in order for it to work with boolean expressions.
+    count = 0                                        #All of the changes I made in the Improved Parse Tree program also apply to this program.
+    for item in fpexp:                               #I had to add a few more if statements since I didn't want to put spaces in between the boolean
+        if item == ")":                              #symbols. Other than that nothing else changed. The program looks through the string and puts
+            count = count + 1                        #spaces where needed.
     if count == 0:
         raise ValueError("Please put parenthesis around expression or boolean statement.")
     parCount = 0
@@ -87,11 +93,11 @@ def buildParseTree(fpexp):
             currentTree.insertLeft('')
             pStack.push(currentTree)
             currentTree = currentTree.getLeftChild()
-        elif i not in ['+', '-', '*', '/', ')', '<', '>', '!=', '<=', '>=', '==']:
+        elif i not in ['+', '-', '*', '/', ')', '<', '>', '!=', '<=', '>=', '==']:   #Here I added the boolean symbols.
             currentTree.setRootVal(int(i))
             parent = pStack.pop()
             currentTree = parent
-        elif i in ['+', '-', '*', '/', '<', '>', '!=', '<=', '>=', '==']:
+        elif i in ['+', '-', '*', '/', '<', '>', '!=', '<=', '>=', '==']:    #Once again, the boolean symbols were needed.
             currentTree.setRootVal(i)
             currentTree.insertRight('')
             pStack.push(currentTree)
@@ -105,8 +111,8 @@ def buildParseTree(fpexp):
 def evaluate(parseTree):
     opers = {'+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv, '<':operator.lt, '>':operator.gt, '!=':operator.ne, '<=':operator.le, '>=':operator.ge, '==':operator.eq}
 
-    leftC = parseTree.getLeftChild()
-    rightC = parseTree.getRightChild()
+    leftC = parseTree.getLeftChild()             #In the evaluate function I had to add the boolean 
+    rightC = parseTree.getRightChild()           #symbols to the opers variable.
 
     if leftC and rightC:
         fn = opers[parseTree.getRootVal()]
@@ -115,9 +121,15 @@ def evaluate(parseTree):
         return parseTree.getRootVal()
 
 
-def main():
-    pt = buildParseTree("(10 == 5)")
-    answer = evaluate(pt)
+def main():                               #In the main function I create three parse trees all with different
+    pt = buildParseTree("(10 == 5)")      #boolean expressions. Please feel free to play around with the expressions.
+    pt2 = buildParseTree("(10 > 5)")      #Just be sure to put parenthesis around the expression once you are done.
+    pt3 = buildParseTree("(10 <= 5)")     #I have the program print out the results to each expression so the user
+    answer = evaluate(pt)                 #knows that the program is running correctly.
+    answer2 = evaluate(pt2)
+    answer3 = evaluate(pt3)
     print(answer)
+    print(answer2)
+    print(answer3)
     
 main()
